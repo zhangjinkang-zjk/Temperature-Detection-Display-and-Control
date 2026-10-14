@@ -44,8 +44,14 @@
 TIM_HandleTypeDef htim3;
 
 /* USER CODE BEGIN PV */
+volatile uint8_t ui_mode = 0;
+volatile uint8_t ui_dirty = 0;
 uint8_t  temperature=0;
 uint8_t  humidity=0;
+uint8_t temup = 75;
+uint8_t temlimit = 25;
+uint8_t humup = 70;
+uint8_t humlimit = 20;
 /* USER CODE END PV */
 
 /* Private function prototypes -----------------------------------------------*/
@@ -100,43 +106,20 @@ int main(void)
   HDG12864F1_Init();                       
   HDG12864F1_Clear();                      
   HAL_Delay_us(10);
-
-  HDG12864F1_WriteChineseCharUpper(cCharWenUpper, CHINESE_COLUMN_0, 0);
-  HDG12864F1_WriteChineseCharLower(cCharWenLower, CHINESE_COLUMN_0, 0);
-
-  HDG12864F1_WriteChineseCharUpper(cCharDuUpper, CHINESE_COLUMN_1, 0);
-  HDG12864F1_WriteChineseCharLower(cCharDuLower, CHINESE_COLUMN_1, 0);
-
-  HDG12864F1_WriteEnglishChar(Char_MaoHao, NUMBER_COLUMN_4, 0);  
-  HDG12864F1_WriteEnglishChar(Number0_9[temperature/10], NUMBER_COLUMN_5, 0);
-  HDG12864F1_WriteEnglishChar(Number0_9[temperature%10], NUMBER_COLUMN_6, 0);
-  HDG12864F1_WriteChineseCharUpper(cCharSheShiDuUpper, CHINESE_COLUMN_4, 0);
-  HDG12864F1_WriteChineseCharLower(cCharSheShiDuLower, CHINESE_COLUMN_4, 0);
-
-  HDG12864F1_WriteChineseCharUpper(cCharShiUpper, CHINESE_COLUMN_0, 2);
-  HDG12864F1_WriteChineseCharLower(cCharShiLower, CHINESE_COLUMN_0, 2);
-  HDG12864F1_WriteChineseCharUpper(cCharDuUpper, CHINESE_COLUMN_1, 2);
-  HDG12864F1_WriteChineseCharLower(cCharDuLower, CHINESE_COLUMN_1, 2);
-
-  HDG12864F1_WriteEnglishChar(Char_MaoHao, NUMBER_COLUMN_4, 2);  
-  HDG12864F1_WriteEnglishChar(Number0_9[humidity/10], NUMBER_COLUMN_5, 2);
-  HDG12864F1_WriteEnglishChar(Number0_9[humidity%10], NUMBER_COLUMN_6, 2);
-  HDG12864F1_WriteEnglishChar(Char_BaiFenHao, NUMBER_COLUMN_8, 2);  
-  HDG12864F1_WriteEnglishChar(Char_R, NUMBER_COLUMN_9, 2);  
-  HDG12864F1_WriteEnglishChar(Char_H, NUMBER_COLUMN_A, 2);  
+  DrawStatic();
   /* USER CODE END 2 */
 
   /* Infinite loop */
   /* USER CODE BEGIN WHILE */
   while (1)
   {
-	    dht11_read_data(&temperature, &humidity);
-  		HDG12864F1_WriteEnglishChar(Number0_9[temperature/10], NUMBER_COLUMN_5, 0);  
-  		HDG12864F1_WriteEnglishChar(Number0_9[temperature%10], NUMBER_COLUMN_6, 0); 
-
-  		HDG12864F1_WriteEnglishChar(Number0_9[humidity/10], NUMBER_COLUMN_5, 2);  
-  		HDG12864F1_WriteEnglishChar(Number0_9[humidity%10], NUMBER_COLUMN_6, 2);
-    	Delay_ms(200);
+	if (ui_dirty) {
+		ui_dirty = 0;
+		HDG12864F1_Clear();
+		DrawStatic();
+	}
+	MainUi();
+	HAL_Delay_us(200);
     /* USER CODE END WHILE */
 
     /* USER CODE BEGIN 3 */
@@ -317,6 +300,61 @@ static void MX_GPIO_Init(void)
 }
 
 /* USER CODE BEGIN 4 */
+void DrawStatic() {
+  HDG12864F1_WriteChineseCharUpper(cCharWenUpper, CHINESE_COLUMN_0, 0);
+  HDG12864F1_WriteChineseCharLower(cCharWenLower, CHINESE_COLUMN_0, 0);
+
+  HDG12864F1_WriteChineseCharUpper(cCharDuUpper, CHINESE_COLUMN_1, 0);
+  HDG12864F1_WriteChineseCharLower(cCharDuLower, CHINESE_COLUMN_1, 0);
+
+  
+
+  HDG12864F1_WriteChineseCharUpper(cCharShiUpper, CHINESE_COLUMN_0, 2);
+  HDG12864F1_WriteChineseCharLower(cCharShiLower, CHINESE_COLUMN_0, 2);
+  HDG12864F1_WriteChineseCharUpper(cCharDuUpper, CHINESE_COLUMN_1, 2);
+  HDG12864F1_WriteChineseCharLower(cCharDuLower, CHINESE_COLUMN_1, 2);
+
+   
+ 
+
+  HDG12864F1_WriteChineseCharUpper(cCharMoUpper, CHINESE_COLUMN_2, 6);
+  HDG12864F1_WriteChineseCharLower(cCharMoLower, CHINESE_COLUMN_2, 6);
+  HDG12864F1_WriteChineseCharUpper(cCharShi3Upper, CHINESE_COLUMN_3, 6);
+  HDG12864F1_WriteChineseCharLower(cCharShi3Lower, CHINESE_COLUMN_3, 6);
+}
+
+void DrawSet() {
+	HDG12864F1_WriteChineseCharUpper(cCharSheUpper, CHINESE_COLUMN_0, 6);
+  	HDG12864F1_WriteChineseCharLower(cCharSheLower, CHINESE_COLUMN_0, 6);
+	HDG12864F1_WriteChineseCharUpper(cCharZhi2Upper, CHINESE_COLUMN_1, 6);
+  	HDG12864F1_WriteChineseCharLower(cCharZhi2Lower, CHINESE_COLUMN_1, 6);
+}
+
+void MainUi() {
+	if (ui_mode == 0) {
+		dht11_read_data(&temperature, &humidity); 
+
+		HDG12864F1_WriteEnglishChar(Char_MaoHao, NUMBER_COLUMN_4, 0);  
+  		HDG12864F1_WriteEnglishChar(Number0_9[temperature/10], NUMBER_COLUMN_5, 0);
+		HDG12864F1_WriteEnglishChar(Number0_9[temperature%10], NUMBER_COLUMN_6, 0);
+  		HDG12864F1_WriteChineseCharUpper(cCharSheShiDuUpper, CHINESE_COLUMN_4, 0);
+  		HDG12864F1_WriteChineseCharLower(cCharSheShiDuLower, CHINESE_COLUMN_4, 0);
+		HDG12864F1_WriteEnglishChar(Char_MaoHao, NUMBER_COLUMN_4, 2); 
+    	HDG12864F1_WriteEnglishChar(Char_BaiFenHao, NUMBER_COLUMN_8, 2);  
+  		HDG12864F1_WriteEnglishChar(Char_R, NUMBER_COLUMN_9, 2);  
+		HDG12864F1_WriteEnglishChar(Char_H, NUMBER_COLUMN_A, 2);
+  		HDG12864F1_WriteEnglishChar(Number0_9[humidity/10], NUMBER_COLUMN_5, 2);  
+  		HDG12864F1_WriteEnglishChar(Number0_9[humidity%10], NUMBER_COLUMN_6, 2);
+		HDG12864F1_WriteChineseCharUpper(cCharXianUpper, CHINESE_COLUMN_0, 6);
+  		HDG12864F1_WriteChineseCharLower(cCharXianLower, CHINESE_COLUMN_0, 6);
+  		HDG12864F1_WriteChineseCharUpper(cCharShi2Upper, CHINESE_COLUMN_1, 6);
+		HDG12864F1_WriteChineseCharLower(cCharShi2Lower, CHINESE_COLUMN_1, 6);
+	}
+	if (ui_mode == 1) {
+		DrawSet();
+	}
+}
+
 void HAL_Delay_us(uint32_t nus)
 {
     const uint32_t ticks = (SystemCoreClock / 1000000U) * nus;
@@ -344,6 +382,15 @@ void Delay_ms(uint16_t ms) {
     while(ms--) {
         HAL_Delay(1);  
     }
+}
+
+void HAL_GPIO_EXTI_Callback(uint16_t GPIO_Pin) {
+	if (GPIO_Pin == ChangeButton_Pin) {
+		ui_mode ++;
+		ui_mode %= 2;
+		ui_dirty = 1;
+	}
+
 }
 /* USER CODE END 4 */
 

@@ -55,6 +55,8 @@ void HAL_TIM_MspPostInit(TIM_HandleTypeDef *htim);
 void Error_Handler(void);
 
 /* USER CODE BEGIN EFP */
+void MainUi();
+void DrawStatic();
 void Delay_ms(uint16_t ms);
 void HAL_Delay_us(uint32_t nus);
 /* USER CODE END EFP */

@@ -67,4 +67,17 @@ void HDG12864F1_Clear(void);
 void HDG12864F1_WriteChineseCharUpper(uint8_t *pCChar, uint8_t column, uint8_t page);
 void HDG12864F1_WriteChineseCharLower(uint8_t *pCChar, uint8_t column, uint8_t page);
 
+
+extern uint8_t cCharXianUpper[16];
+extern uint8_t cCharXianLower[16];
+extern uint8_t cCharShi2Upper[16];
+extern uint8_t cCharShi2Lower[16];
+extern uint8_t cCharMoUpper[16];
+extern uint8_t cCharMoLower[16];
+extern uint8_t cCharShi3Upper[16];
+extern uint8_t cCharShi3Lower[16];
+extern uint8_t cCharSheUpper[16];
+extern uint8_t cCharSheLower[16];
+extern uint8_t cCharZhi2Upper[16];
+extern uint8_t cCharZhi2Lower[16];
 #endif /* __HDG12864F1_H */
