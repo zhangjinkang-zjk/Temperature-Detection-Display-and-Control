@@ -1,0 +1,5 @@
+CompileFlags:
+  CompilationDatabase: build/Debug
+  # ST 的 CubeIDE/CMake 模板偶尔会带上这个标志，clang 认不出会直接报错
+  Remove:
+    - -fcyclomatic-complexity
