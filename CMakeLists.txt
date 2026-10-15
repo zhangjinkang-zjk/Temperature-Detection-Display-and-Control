@@ -47,6 +47,8 @@ target_sources(${CMAKE_PROJECT_NAME} PRIVATE
     # Add user sources here
     ${CMAKE_SOURCE_DIR}/Core/Src/dht11.c
     ${CMAKE_SOURCE_DIR}/Core/Src/HDG12864F1.c
+    ${CMAKE_SOURCE_DIR}/Core/Src/iic.c
+    ${CMAKE_SOURCE_DIR}/Core/Src/at24cxx.c
 )
 
 # Add include paths
