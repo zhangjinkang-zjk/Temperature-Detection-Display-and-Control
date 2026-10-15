@@ -1,0 +1,18 @@
+{
+    "cmake.cmakePath": "cube-cmake",
+    "cmake.configureArgs": [
+        "-DCMAKE_COMMAND=cube-cmake",
+        // 注意：工作区的 configureArgs 会把用户级 settings.json 里的同名项**整个覆盖**，
+        // 所以上面那条 hex/bin 生成钩子必须在这里重复一遍，否则构建不再产出 .hex/.bin
+        "-DCMAKE_PROJECT_TOP_LEVEL_INCLUDES=F:/stm32/stm32_shared.cmake"
+    ],
+    "cmake.preferredGenerators": [
+        "Ninja"
+    ],
+    "stm32cube-ide-clangd.path": "cube",
+    "stm32cube-ide-clangd.arguments": [
+        "starm-clangd",
+        "--query-driver=${env:CUBE_BUNDLE_PATH}/gnu-tools-for-stm32/14.3.1+st.2/bin/arm-none-eabi-gcc*",
+        "--query-driver=${env:CUBE_BUNDLE_PATH}/gnu-tools-for-stm32/14.3.1+st.2/bin/arm-none-eabi-g++*"
+    ]
+}

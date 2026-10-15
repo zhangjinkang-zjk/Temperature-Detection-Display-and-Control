@@ -64,6 +64,7 @@ void wrt_dt(uint8_t data_);
 void HDG12864F1_WriteEnglishChar(uint8_t *pEChar, uint8_t column, uint8_t page);
 void HDG12864F1_Direction(uint8_t direction);  
 void HDG12864F1_Clear(void);
+void HDG12864F1_ClearArea(uint8_t column, uint8_t page, uint8_t width);
 void HDG12864F1_WriteChineseCharUpper(uint8_t *pCChar, uint8_t column, uint8_t page);
 void HDG12864F1_WriteChineseCharLower(uint8_t *pCChar, uint8_t column, uint8_t page);
 
@@ -80,4 +81,10 @@ extern uint8_t cCharSheUpper[16];
 extern uint8_t cCharSheLower[16];
 extern uint8_t cCharZhi2Upper[16];
 extern uint8_t cCharZhi2Lower[16];
+extern uint8_t cCharShangUpper[16];
+extern uint8_t cCharShangLower[16];
+extern uint8_t cCharXiaUpper[16];
+extern uint8_t cCharXiaLower[16];
+extern uint8_t cCharXian2Upper[16];
+extern uint8_t cCharXian2Lower[16];
 #endif /* __HDG12864F1_H */
