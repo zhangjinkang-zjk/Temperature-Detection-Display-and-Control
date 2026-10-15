@@ -1,3 +1,51 @@
-build
-mx.scratch
+# ============================================================
+# TDDC — STM32F103R6 / CMake+Ninja / Proteus
+# ============================================================
+
+# ---------- 编译产物 ----------
+build/
+mx.scratch/
+
+# ---------- 目标文件与中间件 ----------
+*.o
+*.obj
+*.d
+*.su
+*.elf
+*.hex
+*.bin
+*.map
+*.list
+*.axf
+
+# ---------- CMake / Ninja ----------
+CMakeFiles/
+CMakeCache.txt
+cmake_install.cmake
+build.ninja
+.ninja_deps
+.ninja_log
+compile_commands.json
+
+# ---------- STM32CubeMX / CubeIDE ----------
+*.launch
+
+# ---------- Proteus ----------
+# 每次保存都会在 Project Backups 里堆一份，不需要进版本库
+Project Backups/
+# 带本机用户名的工作区文件，换台机器就失效
+*.workspace
+*.DBK
+*.~*
+
+# ---------- Python (tools/) ----------
+__pycache__/
+*.py[cod]
+
+# ---------- 编辑器与临时文件 ----------
+*.bak
+*.orig
+*.tmp
+*~
+
 !.settings
