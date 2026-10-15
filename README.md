@@ -1,4 +1,6 @@
-# TDDC
+# Temperature Detection, Display and Control
+
+**温度检测、显示与控制系统**，工程代号 **TDDC**。
 
 基于 **STM32F103R6** 的温湿度监测与闭环控制仿真系统。硬件在 **Proteus** 中搭建，固件由 **STM32CubeMX + CMake/Ninja + arm-none-eabi-gcc** 构建。
 
@@ -106,8 +108,7 @@ TDDC/
 ├── cmake/                CMake 工具链配置
 ├── tools/
 │   └── gen_hdg_font.py       汉字点阵生成脚本
-├── docs/
-│   └── schematic.png         原理图
+├── docs/                 原理图与运行截图
 ├── CMakeLists.txt
 ├── CMakePresets.json
 ├── STM32F103xx_FLASH.ld
@@ -128,6 +129,24 @@ cmake --build --preset Debug
 ## 在 Proteus 中运行
 
 `TDDC.pdsprj` 里 STM32F103R6 的 Program File 已经指向 `build\Debug\TDDC.hex`，重新编译后直接启动仿真即可。
+
+## 运行效果
+
+以下截图来自 Proteus 仿真。
+
+### 显示模式
+
+液晶上半部分实时显示温湿度，底下一行是当前界面名。温度未达上限时 L298 输出关断、电机静止；越过上限后电机开始转动。
+
+| 温度 24 ℃ —— 电机停 | 温度 30 ℃ —— 电机转 | 温度 43 ℃ —— 电机转 |
+|---|---|---|
+| ![温度 24 ℃](docs/run-display-24.png) | ![温度 30 ℃](docs/run-display-30.png) | ![温度 43 ℃](docs/run-display-43.png) |
+
+### 设置界面
+
+按 PB2 切换界面，底部那行换成当前设置项，右下角是该阈值的值。下面这张是温度下限被调到 25 的样子：
+
+![温度下限设置界面](docs/run-setting-temleast.png)
 
 ## 字模工具
 
