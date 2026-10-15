@@ -28,6 +28,8 @@ build.ninja
 compile_commands.json
 
 # ---------- STM32CubeMX / CubeIDE ----------
+# 本机工具链记录，换台机器就失效
+.settings/
 *.launch
 
 # ---------- Proteus ----------
@@ -47,5 +49,3 @@ __pycache__/
 *.orig
 *.tmp
 *~
-
-!.settings
